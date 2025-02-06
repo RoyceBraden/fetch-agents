@@ -84,31 +84,6 @@ def webhook():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/api/search-agents', methods=['GET'])
-def search_agents():
-    try:
-        available_ais = fetch.ai('I need help deciding what to do')
-        print(f'---------------------{available_ais}----------------------')
-        agents = available_ais.get('ais', [])
-        print(f'----------------------------------{agents}------------------------------------')
-
-        extracted_data = []
-        for agent in agents:
-            name = agent.get('name')
-            address = agent.get('address')
-            extracted_data.append({
-                'name': name,
-                'address': address,
-            })
-        response = jsonify(extracted_data)
-        response.headers.add('Content-Type', 'application/json; charset=utf-8')
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        return response, 200
-
-    except Exception as e:
-        logger.error(f"Error finding agents: {e}")
-        return jsonify({"error": str(e)}), 500
     
 def start_server():
     try:
